@@ -20,17 +20,14 @@ TSRCS		=	tests/Test_Graph.cpp          \
 
 TBIN		=	test_result_libgraph
 
-OBJS		=	$(SRCS:.c=.o)
-
 all			: 	$(NAME)
 
-$(NAME)		:	$(OBJS)
+$(NAME)		:
 			@echo "Nothing to do."
 			@echo "This library is written directly in header .hpp. You can use it by including the .hpp files in your source code."
-			@echo "type :	make tests_run    to run tests."
+			@echo "Type :	make tests_run    to run tests."
 
-clean		:
-			$(RM) $(OBJS)
+clean		:	;
 
 fclean		:	clean
 			$(RM) $(NAME)

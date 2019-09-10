@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJET, 2018
-** Dijkstra.hpp
-** File description:
-** description?
-*/
-
 #ifndef DIJKSTRA_TRAINING_DIJKSTRA_HPP
 #   define DIJKSTRA_TRAINING_DIJKSTRA_HPP
 
@@ -18,7 +11,7 @@
 
 namespace uti::graph {
     class AlgorithmFinished : public std::exception {};
-    template <class T> // TODO : check if I can remove this template because it's not appropriate (mettre dijistra a l'interieur de la class graph ? en sous class ?)
+    template <class T> // TODO : find a way to remove this template? see if I can move the Dijkstra class inside the Graph class.
     class Dijkstra {
     private:
         static constexpr long double INFINITY = LDBL_MAX;

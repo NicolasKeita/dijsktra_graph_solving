@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJET, 2018
-** Test_Graph.cpp
-** File description:
-** Tests for the graph class
-*/
-
 #include <criterion/criterion.h>
 #include <string>
 #include "Graph.hpp"

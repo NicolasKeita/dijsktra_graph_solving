@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJET, 2018
-** Graph.hpp
-** File description:
-** description?
-*/
-
 #ifndef DIJKSTRA_TRAINING_GRAPH_HPP
 #   define DIJKSTRA_TRAINING_GRAPH_HPP
 
@@ -17,25 +10,27 @@ namespace uti::graph {
     class Graph;
 }
 #include "Dijkstra.hpp"
-// TODO : Pour enlever les functions "doublons", je peux laisser le param en const et ensuite enlever le const
-// TODO : Add const or/and noexcept to appropriate methods
 
 /*
- * A graph contains a container of vertices.
- * Those vertices contains a container of edges and an element to determine their ID (e.g name).
- * In this implementation I only used std::deque as container
+ * My graph implementation is a container full of vertices.
+ * Each vertex also owns a container full of edges and each vertex also owns one element.
+ * I only used std::deque as container
  * API public functions :
- *          addVertex(ID_vertex) to create
- *          addVertex(ID_vertex_1, ID_vertex_2, BIDIRECT) to link
- *          getVertex(ID_vertex) to get
+ *          addVertex(vertex_ID) to create the graph or a vertex.
+ *                  "vertex_ID" is usually a unique number or string, to distinguish between each vertex
+ *          addVertex(vertex_1_ID, vertex_2_ID, BIDIRECT) to link two vertices
+ *          getVertex(vertex_ID)
+ *          dijkstraSolving(const T &begin, const T&end)
+ *                  Returns each ID in order, from begin to end using the fastest way possible
  */
 namespace uti::graph {
+    class CannotFindVertex : public std::exception {};
     enum LinkType {
         A_TO_B = 0,
         B_TO_A,
         BIDIRECT
     };
-    class CannotFindVertex : public std::exception {};
+
     template<typename T>
     class Graph {
     public:
@@ -44,32 +39,20 @@ namespace uti::graph {
     private:
         std::deque<Vertex> _vertices;
     public:
-        std::deque<Vertex> &getVertices() { return _vertices; };
-
-        std::stack<T *> dijkstraSolving(const T &begin, const T&end)
+        std::stack<T *>         dijkstraSolving(const T &begin, const T&end)
         {
-            uti::graph::Dijkstra<T> d;
-            return d.getShortestPath(*this, begin, end);
+            return uti::graph::Dijkstra<T>().getShortestPath(*this, begin, end);
         }
-
-
-        Vertex &addVertex(const T &element) {
+        Vertex &                addVertex(const T &element) noexcept
+        {
             auto it = std::find(_vertices.begin(), _vertices.end(), element);
             if (it != _vertices.end())
                 return *it;
             _vertices.push_back(Vertex(element));
             return *_vertices.end();
         };
-        Vertex &addVertex(T &element) {
-            auto it = std::find(_vertices.begin(), _vertices.end(), element);
-            if (it != _vertices.end())
-                return *it;
-            _vertices.push_back(Vertex(element));
-            return *_vertices.end();
-        };
-    public:
-        void addVertex(const T &first_elem, const T &second_elem,
-                       LinkType link = A_TO_B, long double distance = 1)
+        void                    addVertex(const T &first_elem, const T &second_elem,
+                                          LinkType link = A_TO_B, long double distance = 1) noexcept
         {
             addVertex(first_elem);
             addVertex(second_elem);
@@ -93,44 +76,13 @@ namespace uti::graph {
                     break;
             }
         }
-        void addVertex(T &first_elem, T &second_elem,
-                       LinkType link = A_TO_B, long double distance = 1)
-        {
-            addVertex(first_elem);
-            addVertex(second_elem);
-            Vertex &vertex1 = getVertex(first_elem);
-            Vertex &vertex2 = getVertex(second_elem);
-            switch (link) {
-                case A_TO_B : {
-                    vertex1.link(vertex2, distance);
-                    break;
-                }
-                case B_TO_A : {
-                    vertex2.link(vertex1, distance);
-                    break;
-                }
-                case BIDIRECT : {
-                    vertex1.link(vertex2, distance);
-                    vertex2.link(vertex1, distance);
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-    public:
-        Vertex &getVertex(const T &elem) {
+        Vertex &                    getVertex(const T &elem) {
             auto it = std::find(_vertices.begin(), _vertices.end(), elem);
             if (it == _vertices.end())
                 throw CannotFindVertex();
             return *it;
         }
-        Vertex &getVertex(T &elem) {
-            auto it = std::find(_vertices.begin(), _vertices.end(), elem);
-            if (it == _vertices.end())
-                throw CannotFindVertex();
-            return *it;
-        }
+        std::deque<Vertex> &    getVertices() noexcept { return _vertices; };
 
     public:
         class Vertex {
@@ -148,7 +100,7 @@ namespace uti::graph {
 
             bool operator==(const T &elem) const { return elem == this->element; };
             bool operator==(T &elem) const { return elem == element; };
-            bool operator==(const Vertex &elem) const { return elem.element == element; }; // TODO : correct the operator==
+            bool operator==(const Vertex &elem) const { return elem.element == element; };
 
             void link(Vertex &other, long double distance) { edges.push_back(Edge(*this, other, distance)); };
         };
@@ -169,7 +121,7 @@ namespace uti::graph {
             Vertex &begin;
             Vertex &end;
 
-            bool operator==(const Edge &other) { return other.weight == weight; }; // TODO : correct the operator==
+            bool operator==(const Edge &other) { return other.weight == weight; };
         };
     };
 }

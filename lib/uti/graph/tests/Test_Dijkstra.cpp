@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJET, 2018
-** Test_Dijkstra.cpp
-** File description:
-** test for class Dijkstra
-*/
-
 #include <criterion/criterion.h>
 #include "Graph.hpp"
 #include "Dijkstra.hpp"

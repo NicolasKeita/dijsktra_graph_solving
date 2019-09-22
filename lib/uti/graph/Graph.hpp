@@ -12,8 +12,8 @@ namespace uti::graph {
 #include "Dijkstra.hpp"
 
 /*
- * My graph implementation is a container full of vertices.
- * Each vertex also owns a container full of edges and each vertex also owns one element.
+ * My graph implementation is a container of vertices.
+ * Each vertex also owns a container of edges and each vertex also owns one element.
  * I only used std::deque as container
  * API public functions :
  *          addVertex(vertex_ID) to create the graph or a vertex.

@@ -15,6 +15,7 @@ namespace uti::graph {
  * My graph implementation is a container of vertices.
  * Each vertex also owns a container of edges and each vertex also owns one element.
  * I only used std::deque as container
+ * The elements you add to the graph MUST live outside the class. I only retrive references.
  * API public functions :
  *          addVertex(vertex_ID) to create the graph or a vertex.
  *                  "vertex_ID" is usually a unique number or string, to distinguish between each vertex
@@ -36,18 +37,21 @@ namespace uti::graph {
     public:
         class Vertex;
         class Edge;
-    private:
+    public:
         std::deque<Vertex> _vertices;
     public:
         std::stack<T *>         dijkstraSolving(const T &begin, const T&end)
         {
+            getVertex(begin);
+            getVertex(end);
             return uti::graph::Dijkstra<T>().getShortestPath(*this, begin, end);
         }
         Vertex &                addVertex(const T &element) noexcept
         {
             auto it = std::find(_vertices.begin(), _vertices.end(), element);
-            if (it != _vertices.end())
+            if (it != _vertices.end()) {
                 return *it;
+            }
             _vertices.push_back(Vertex(element));
             return *_vertices.end();
         };
@@ -82,7 +86,7 @@ namespace uti::graph {
                 throw CannotFindVertex();
             return *it;
         }
-        std::deque<Vertex> &    getVertices() noexcept { return _vertices; };
+        std::deque<Vertex> &        getVertices() noexcept { return _vertices; };
 
     public:
         class Vertex {

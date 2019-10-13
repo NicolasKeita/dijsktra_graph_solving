@@ -3,6 +3,7 @@
 
 #include <deque>
 #include <stack>
+#include <iostream>
 #include <float.h>
 #include <algorithm>
 #include "Dijkstra.hpp"
@@ -17,16 +18,17 @@ namespace uti::graph {
         static constexpr long double INFINITY = LDBL_MAX;
         class VertexWrapper {
         public:
-            VertexWrapper(typename Graph<T>::Vertex &vertex)
-                    : vertex { vertex },
-                      distance { INFINITY },
-                      previous { nullptr },
-                      already_visited { false }{};
+
             typename Graph<T>::Vertex   &vertex;
             long double                 distance;
             VertexWrapper               *previous;
             bool                        already_visited;
 
+            VertexWrapper(typename Graph<T>::Vertex &vertex)
+                    : vertex { vertex },
+                      distance { INFINITY },
+                      previous { nullptr },
+                      already_visited { false } {};
             VertexWrapper(const VertexWrapper &) = delete;
             VertexWrapper &operator=(const VertexWrapper &) = delete;
             VertexWrapper(VertexWrapper &&) noexcept = default;
